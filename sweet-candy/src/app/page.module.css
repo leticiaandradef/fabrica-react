@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Nerko+One&display=swap'); /* Nerko One */
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap'); /* Coiny */
+
+.container {
+    display: flex;
+    margin: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 90vw;
+    max-width: 800px;
+    background: linear-gradient(#FBD1FF 0%, #FFA4EB 100%);
+    border-radius: 20px;
+    box-shadow: 0 5px 15px rgba(255, 164, 235, 0.5);
+}
+
+.h1 {
+    text-align: center;
+    color: var(--cor4);
+    font-family: 'Coiny', cursive;
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+.section .h2,
+.section .h3 {
+    font-family: 'Coiny', cursive;
+    color: var(--cor4);
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    gap: 10px;
+}
+
+.label{
+    font-family: 'none';
+}
+
+.option .input[type="radio"] {
+    margin-right: 10px;
+}
+
+.resumo {
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.resumo .p {
+    margin: 5px 0;
+    font-family: 'none';
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.buttons .button {
+    font-family: 'Nerko One', cursive;
+    padding: 10px 20px;
+    border: none;
+    background-color: #fc7de0;
+    color: var(--cor4);
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.buttons .button:hover {
+    color: var(--cor3);
+    transform: scale(1.04);
+    box-shadow: 0 5px 15px rgba(255, 120, 226, 0.5);
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95vw;
+        height: auto;
+        padding: 20px;
+    }
+
+    .option {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .buttons .button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .h1 {
+        font-size: 1.8rem;
+    }
+
+    .buttons .button {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    .resumo {
+        padding: 10px;
+    }
+}
