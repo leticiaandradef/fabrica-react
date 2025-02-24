@@ -1,37 +1,24 @@
-import styles from './page.module.css'
-import Header from "@/components/Header"
-import Footer from "@/components/Footer"
+import styles from './agradecimento.module.css'
 import Link from 'next/link'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
 
-export default function VendaCupcake() {
+export default function Agradecimento() {
     return (
         <div>
-            <Header />
-            <div className={styles.telafundo}>
-            
-                <div className={styles.container}>
-                    <div className={styles.icon}>🧁</div>
-
-                    <h1 className={styles.h1}>Sua compra foi realizada com sucesso!!</h1>
-                </div>
-
-                <div className={styles.container1}>
-                    <p className={styles.p}>Obrigada pela preferência! <span>🖤</span></p>
-                </div>
-
-                <div className={styles.opc}>
-                                    
-                    <button className={styles.buttons}>
-                        <Link className={styles.link} href="/cadastrarFeedback">Fazer feedback</Link>
-                    </button>
-                                    
-                    <button className={styles.buttons}>
-                        <Link className={styles.link} href="/solicitarDevolucao">solicitar Devolucao</Link>
-                    </button>
-
-                </div>
+            <Header /> 
+            <div className={styles.caixa}>
+                <div className={styles.mensagem}>
+                <span className={styles.icone}>🧁</span>
+                <p>Sua devolução foi aceita! Vá até a loja para devolver o produto e receber o reembolso.</p>
             </div>
-            <Footer />
+                <div className={styles.agradecimento}>
+                    Obrigada pela preferência! 🎔
+                </div>
+                <Link className={styles.botao} href="#">Fazer outro pedido</Link>
+                <Link className={styles.botao} href="#">Voltar ao início</Link>
+            </div>
+            <Footer /> 
         </div>
     )
 }
