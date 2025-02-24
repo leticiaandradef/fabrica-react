@@ -17,6 +17,7 @@ export default function Agradecimento() {
                 </div>
                 <Link className={styles.botao} href="#">Cadastrar Feedback</Link>
                 <Link className={styles.botao} href="#">Solicitar devolução</Link>
+                <Link className={styles.botao} href="#">Volatr ao início</Link>
             </div>
             <Footer /> 
         </div>
