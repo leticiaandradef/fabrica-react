@@ -15,8 +15,8 @@ export default function Agradecimento() {
                 <div className={styles.agradecimento}>
                     Obrigada pela preferência! 🎔
                 </div>
-                <Link className={styles.botao} href="#">Fazer outro pedido</Link>
-                <Link className={styles.botao} href="#">Voltar ao início</Link>
+                <Link className={styles.botao} href="#">Cadastrar Feedback</Link>
+                <Link className={styles.botao} href="#">Solicitar devolução</Link>
             </div>
             <Footer /> 
         </div>

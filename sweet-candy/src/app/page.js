@@ -1,4 +1,4 @@
-"use client"; // Para Next.js App Router
+"use client";
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -7,9 +7,9 @@ import styles from "./page.module.css";
 
 export default function Checkout() {
     
-  const router = useRouter(); // Hook para navegação
+  const router = useRouter(); 
 
-  // Função para redirecionamento ao selecionar "Entrega (Delivery)"
+
   const handleEntregaChange = (event) => {
     const value = event.target.value;
     if (value) {
@@ -18,12 +18,12 @@ export default function Checkout() {
   };
 
   return (
-    <div> {/* Adicionando essa div como container geral */}
+    <div>
       <Header />
       <div className={styles.container}>
         <h1 className={styles.h1}>Checkout</h1>
 
-        {/* Formas de Pagamento */}
+        
         <div className={styles.section}>
           <h2 className={styles.h2}>Formas de Pagamento</h2>
           <div className={styles.option}>
@@ -44,7 +44,7 @@ export default function Checkout() {
           </div>
         </div>
 
-        {/* Formas de Entrega */}
+       
         <div className={styles.section}>
           <h2 className={styles.h2}>Formas de Entrega</h2>
           <div className={styles.option}>
@@ -57,13 +57,13 @@ export default function Checkout() {
               type="radio"
               name="entrega"
               value="/endereco-de-entrega/index"
-              onChange={handleEntregaChange} // Função de redirecionamento
+              onChange={handleEntregaChange}
             />
             <label className={styles.label}>Entrega (Delivery)</label>
           </div>
         </div>
 
-        {/* Resumo do Pedido */}
+   
         <div className={styles.resumo}>
           <h3 className={styles.h3}>Resumo do Pedido</h3>
           <p className={styles.p}>Produto: </p>
@@ -73,7 +73,7 @@ export default function Checkout() {
           <p className={styles.p}>Total: R$ 00,00</p>
         </div>
 
-        {/* Botões */}
+      
         <div className={styles.buttons}>
           <button className={styles.button} type="reset">
             Limpar Carrinho
@@ -81,7 +81,7 @@ export default function Checkout() {
           <button className={styles.button} onClick={() => router.push("/pedido")}>
             Voltar
           </button>
-          <button className={styles.button} onClick={() => router.push("/venda-de-cupcake/venda_cupcake")}>
+          <button className={styles.button} onClick={() => router.push("./vendaCupcake")}>
             Fazer Pedido
           </button>
         </div>
