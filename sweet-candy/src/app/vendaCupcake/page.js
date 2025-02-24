@@ -10,7 +10,7 @@ export default function Agradecimento() {
             <div className={styles.caixa}>
                 <div className={styles.mensagem}>
                 <span className={styles.icone}>🧁</span>
-                <p>Sua devolução foi aceita! Vá até a loja para devolver o produto e receber o reembolso.</p>
+                <p>Sua compra foi realizada com sucesso.</p>
             </div>
                 <div className={styles.agradecimento}>
                     Obrigada pela preferência! 🎔
