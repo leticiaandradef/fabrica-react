@@ -1,15 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap'); /*'Coiny', system-ui;*/
+@import url('https://fonts.googleapis.com/css2?family=Nerko+One&display=swap'); /* Nerko One */
+
 :root {
   --cor1: white;
   --cor2: #FFA4EB;
   --cor3: #FBD1FF;
   --cor4: #B6005BD6;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 html,
@@ -19,8 +15,6 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -36,8 +30,6 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+h1 {
+  text-align: center;
 }

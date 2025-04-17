@@ -1,92 +1,73 @@
-"use client";
+'use client'
 
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import { useRouter } from "next/navigation";
-import styles from "./page.module.css";
+import React, { useState } from 'react';
+import styles from './page.module.css';
+import Link from 'next/link';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 
-export default function Checkout() {
-    
-  const router = useRouter(); 
+const Checkout = () => {
+  const [pagamento, setPagamento] = useState('');
 
-
-  const handleEntregaChange = (event) => {
-    const value = event.target.value;
-    if (value) {
-      router.push(value);
-    }
+  const handleLimparCarrinho = async () => {
+    await fetch('/api/limpar-carrinho', { method: 'POST' });
+    alert('Carrinho limpo!');
   };
+
 
   return (
     <div>
       <Header />
-      <div className={styles.container}>
-        <h1 className={styles.h1}>Checkout</h1>
 
-        
-        <div className={styles.section}>
-          <h2 className={styles.h2}>Formas de Pagamento</h2>
-          <div className={styles.option}>
-            <input className={styles.input} type="radio" name="pagamento" value="credito" />
-            <label className={styles.label}>Cartão de Crédito no App</label>
-          </div>
-          <div className={styles.option}>
-            <input className={styles.input} type="radio" name="pagamento" value="dinheiro" />
-            <label className={styles.label}>Dinheiro</label>
-          </div>
-          <div className={styles.option}>
-            <input className={styles.input} type="radio" name="pagamento" value="maquina" />
-            <label className={styles.label}>Máquina Móvel</label>
-          </div>
-          <div className={styles.option}>
-            <input className={styles.input} type="radio" name="pagamento" value="pix" />
-            <label className={styles.label}>PIX no App</label>
-          </div>
-        </div>
+    <div className={styles.container}>
+      <h1 className={styles.h1}>Checkout</h1>
+      <h2 className={styles.h2}>Formas de Pagamento</h2>
 
-       
-        <div className={styles.section}>
-          <h2 className={styles.h2}>Formas de Entrega</h2>
-          <div className={styles.option}>
-            <input className={styles.input} type="radio" name="entrega" value="loja" />
-            <label className={styles.label}>Retirada na Loja</label>
-          </div>
-          <div className={styles.option}>
-            <input
-              className={styles.input}
-              type="radio"
-              name="entrega"
-              value="/endereco-de-entrega/index"
-              onChange={handleEntregaChange}
-            />
-            <label className={styles.label}>Entrega (Delivery)</label>
-          </div>
-        </div>
-
-   
-        <div className={styles.resumo}>
-          <h3 className={styles.h3}>Resumo do Pedido</h3>
-          <p className={styles.p}>Produto: </p>
-          <p className={styles.p}>Quantidade: 0</p>
-          <p className={styles.p}>Taxa de serviço: R$ 00,00</p>
-          <p className={styles.p}>Taxa de entrega: R$ 00,00</p>
-          <p className={styles.p}>Total: R$ 00,00</p>
-        </div>
-
-      
-        <div className={styles.buttons}>
-          <button className={styles.button} type="reset">
-            Limpar Carrinho
-          </button>
-          <button className={styles.button} onClick={() => router.push("/pedido")}>
-            Voltar
-          </button>
-          <button className={styles.button} onClick={() => router.push("./vendaCupcake")}>
-            Fazer Pedido
-          </button>
-        </div>
+      <div className={styles.pagamentos}>
+        <label className={styles.label}>
+          <input className={styles.input} type="radio" name="pagamento" onChange={() => setPagamento('pix')} /> Pix
+        </label>
+        <label className={styles.label}>
+          <input className={styles.input} type="radio" name="pagamento" onChange={() => setPagamento('maquina')} /> Máquina móvel
+        </label>
+        <label className={styles.label}>
+          <input className={styles.input} type="radio" name="pagamento" onChange={() => setPagamento('dinheiro')} /> Dinheiro
+        </label>
       </div>
-      <Footer />
+
+      <h3 className={styles.h3}>Endereço de entrega</h3>
+      <div className={styles.bloco}>
+        <p className={styles.p}>Rua:</p>
+        <p className={styles.p}>Número da casa:</p>
+        <p className={styles.p}>CEP:</p>
+        <p className={styles.p}>Bairro:</p>
+        <p className={styles.p}>Complemento:</p>
+      </div>
+
+      <h3 className={styles.resumotitle}>Resumo do pedido</h3>
+      <div className={styles.blocoresumo}>
+        <p className={styles.p}>Quantidade:</p>
+        <p className={styles.p}>Taxa de serviço:</p>
+        <p className={styles.p}>Taxa de entrega:</p>
+        <p className={styles.p}>Total:</p>
+      </div>
+
+      <div className={styles.botoes}>
+        <button className={styles.button} onClick={handleLimparCarrinho}>
+          <Link className={styles.link} href="/">Limpar Carrinho</Link>
+        </button>
+        <button className={styles.button}> 
+          <Link className={styles.link} href="/pedido">Voltar</Link>
+        </button>
+        <button className={styles.button}>
+          <Link className={styles.link} href="/vendaCupcake">Fazer pedido</Link>
+        </button>
+      </div>
+     </div>
+
+    <Footer />
     </div>
   );
-}
+};
+
+export default Checkout;

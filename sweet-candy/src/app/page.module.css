@@ -1,127 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap'); /*'Coiny', system-ui;*/
 @import url('https://fonts.googleapis.com/css2?family=Nerko+One&display=swap'); /* Nerko One */
-@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap'); /* Coiny */
 
 .container {
-    display: flex;
-    margin: auto;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 20px;
-    box-sizing: border-box;
-    width: 90vw;
-    max-width: 800px;
-    background: linear-gradient(#FBD1FF 0%, #FFA4EB 100%);
-    border-radius: 20px;
-    box-shadow: 0 5px 15px rgba(255, 164, 235, 0.5);
+  border-radius: 20px;
+  width: 80%;
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: linear-gradient(#FBD1FF 0%, #FFA4EB 100%);
+  box-shadow: 0 5px 15px var(--cor2);
 }
 
 .h1 {
-    text-align: center;
-    color: var(--cor4);
-    font-family: 'Coiny', cursive;
+  color: var(--cor4);
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+  font-family: 'Coiny', system-ui;
 }
 
-.section {
-    margin-bottom: 30px;
+.h2 {
+  color: var(--cor4);
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-family: 'Coiny', system-ui;
 }
 
-.section .h2,
-.section .h3 {
-    font-family: 'Coiny', cursive;
-    color: var(--cor4);
-    text-align: center;
-    margin-bottom: 10px;
+.pagamentos {
+  display: flex;
+  justify-content: space-around;
+  margin: 1rem 0;
+  font-size: 20px;
 }
 
-.option {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    gap: 10px;
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Nerko One', system-ui;
 }
 
-.label{
-    font-family: 'none';
+.input {
+  accent-color: #c0ffc0;
 }
 
-.option .input[type="radio"] {
-    margin-right: 10px;
+.h3 {
+  color: var(--cor4);
+  text-align: center;
+  margin-top: 2rem;
+  font-weight: bold;
+  font-size: 25px;
+  font-family: 'Coiny', system-ui;
 }
 
-.resumo {
-    background-color: #f5f5f5;
-    padding: 15px;
-    border-radius: 20px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+.bloco {
+  background-color: white;
+  border-radius: 15px;
+  padding: 1rem;
+  margin-top: 1rem;
+  text-align: left;
+  font-family: 'Nerko One', system-ui;
 }
 
-.resumo .p {
-    margin: 5px 0;
-    font-family: 'none';
+.resumotitle {
+  color: var(--cor4);
+  text-align: center;
+  margin-top: 2rem;
+  font-weight: bold;
+  font-size: 25px;
+  font-family: 'Coiny', system-ui;
 }
 
-.buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: space-between;
+.blocoresumo {
+  background-color: white;
+  border-radius: 15px;
+  padding: 1rem;
+  margin-top: 1rem;
+  text-align: left;
+  font-family: 'Nerko One', system-ui;
 }
 
-.buttons .button {
-    font-family: 'Nerko One', cursive;
-    padding: 10px 20px;
-    border: none;
-    background-color: #fc7de0;
-    color: var(--cor4);
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.p {
+  margin: 0.2rem 0;
+  font-size: 18px;
 }
 
-.buttons .button:hover {
-    color: var(--cor3);
-    transform: scale(1.04);
-    box-shadow: 0 5px 15px rgba(255, 120, 226, 0.5);
+.botoes {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
 }
 
-@media (max-width: 768px) {
-    .container {
-        width: 95vw;
-        height: auto;
-        padding: 20px;
-    }
-
-    .option {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .buttons {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .buttons .button {
-        width: 100%;
-    }
+.button {
+  padding: 0.6rem 1.2rem;
+  background-color: #fc7de0;
+  border: none;
+  border-radius: 15px;
+  font-weight: bold;
+  color: var(--cor4);
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: 'Nerko One', system-ui;
+  font-size: 20px;
 }
 
-@media (max-width: 480px) {
-    .h1 {
-        font-size: 1.8rem;
-    }
+.link:hover{
+  color: var(--cor3);
+}
 
-    .buttons .button {
-        font-size: 14px;
-        padding: 8px 15px;
-    }
-
-    .resumo {
-        padding: 10px;
-    }
+.button:hover {
+  transform:  scale(1.04);
+  box-shadow: 0 1px 15px #ff78e2;
 }
