@@ -42,7 +42,7 @@
 }
 
 .input {
-  accent-color: #c0ffc0;
+  accent-color: var(--cor4);
 }
 
 .h3 {
@@ -86,6 +86,18 @@
   font-size: 18px;
 }
 
+.input {
+  display: block;
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  font-family: 'Nerko One', system-ui;
+}
+
 .botoes {
   margin-top: 2rem;
   display: flex;
@@ -97,7 +109,6 @@
   background-color: #fc7de0;
   border: none;
   border-radius: 15px;
-  font-weight: bold;
   color: var(--cor4);
   font-size: 14px;
   cursor: pointer;
