@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Coiny&display=swap'); /*'Coiny', system-ui;*/
-@import url('https://fonts.googleapis.com/css2?family=Nerko+One&display=swap'); /* Nerko One */
-
 .container {
   border-radius: 20px;
   width: 80%;
@@ -60,7 +57,7 @@
   padding: 1rem;
   margin-top: 1rem;
   text-align: left;
-  font-family: 'Nerko One', system-ui;
+  /* REMOVIDO: font-family: 'Nerko One' */
 }
 
 .resumotitle {
@@ -78,24 +75,12 @@
   padding: 1rem;
   margin-top: 1rem;
   text-align: left;
-  font-family: 'Nerko One', system-ui;
+  /* REMOVIDO: font-family: 'Nerko One' */
 }
 
 .p {
   margin: 0.2rem 0;
   font-size: 18px;
-}
-
-.input {
-  display: block;
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.2rem;
-  margin-bottom: 0.5rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  font-family: 'Nerko One', system-ui;
 }
 
 .botoes {
@@ -112,16 +97,54 @@
   color: var(--cor4);
   font-size: 14px;
   cursor: pointer;
-  transition: background 0.3s;
   font-family: 'Nerko One', system-ui;
   font-size: 20px;
+  transition: transform 0.2s ease;
 }
 
-.link:hover{
+.link:hover {
   color: var(--cor3);
 }
 
 .button:hover {
-  transform:  scale(1.04);
+  transform: scale(1.04);
   box-shadow: 0 1px 15px #ff78e2;
+}
+
+.fixo {
+  font-size: 20px;
+  font-family: 'Nerko One', system-ui;
+}
+
+.bloco {
+  background-color: white;
+  border-radius: 15px;
+  padding: 1rem;
+  margin-top: 1rem;
+
+  /* NOVO: grid bonitão */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* duas colunas iguais */
+  gap: 0.8rem 1.2rem;                    /* espaço linha/coluna */
+}
+
+.fullRow {
+  grid-column: 1 / -1; /* faz a “Rua” ocupar 100% da largura */
+}
+
+.p {
+  margin: 0;            /* sem margem vertical extra */
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+}
+
+.inputTexto {
+  width: 100%;
+  padding: 0.4rem 0.6rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  font-family: 'Nerko One', system-ui;
+  margin-top: 0.2rem;
 }
