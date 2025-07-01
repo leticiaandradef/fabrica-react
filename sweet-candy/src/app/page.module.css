@@ -116,24 +116,26 @@
   font-family: 'Nerko One', system-ui;
 }
 
+/* …seu CSS já existente… */
+
 .bloco {
   background-color: white;
   border-radius: 15px;
   padding: 1rem;
   margin-top: 1rem;
 
-  /* NOVO: grid bonitão */
+  /* grade para inputs lado‑a‑lado */
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* duas colunas iguais */
-  gap: 0.8rem 1.2rem;                    /* espaço linha/coluna */
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem 1.2rem;
 }
 
 .fullRow {
-  grid-column: 1 / -1; /* faz a “Rua” ocupar 100% da largura */
+  grid-column: 1 / -1; /* Rua pega 100% */
 }
 
 .p {
-  margin: 0;            /* sem margem vertical extra */
+  margin: 0;
   display: flex;
   flex-direction: column;
   font-size: 18px;
