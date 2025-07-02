@@ -1,13 +1,13 @@
-'use client'
+'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.css';
-import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 
 const Checkout = () => {
   const [pagamento, setPagamento] = useState('');
   const [resumo, setResumo] = useState(null);
+  const [carregandoCep, setCarregandoCep] = useState(false);
 
   const [endereco, setEndereco] = useState({
     rua: '',
@@ -17,38 +17,56 @@ const Checkout = () => {
     complemento: '',
   });
 
-  async function fetchResumo(clienteId) {
+  const fetchCepData = async (cepNumerico) => {
     try {
-      const response = await fetch(
-        `https://apisweetcandy.dev.vilhena.ifro.edu.br/resumo/${clienteId}`
-      );
+      setCarregandoCep(true);
+      const response = await fetch(`https://viacep.com.br/ws/${cepNumerico}/json/`);
       const data = await response.json();
 
-      if (response.ok) {
-        setResumo(data);
-      } else {
-        console.error('Erro ao obter resumo:', data.erro);
-        setResumo(null);
+      if (data.erro) {
+        alert('CEP não encontrado. Confere aí e tenta de novo 😉');
+        return;
       }
-    } catch (error) {
-      console.error('Erro ao conectar com a API de resumo:', error);
+
+      setEndereco((prev) => ({
+        ...prev,
+        rua: data.logradouro || '',
+        bairro: data.bairro || '',
+      }));
+    } catch (err) {
+      console.error('Erro ao buscar CEP:', err);
+      alert('Não rolou buscar o CEP. Tenta mais tarde.');
+    } finally {
+      setCarregandoCep(false);
+    }
+  };
+
+  const fetchResumo = async (clienteId) => {
+    try {
+      const res = await fetch(`https://apisweetcandy.dev.vilhena.ifro.edu.br/resumo/${clienteId}`);
+      const data = await res.json();
+      if (res.ok) setResumo(data);
+      else setResumo(null);
+    } catch (err) {
+      console.error('Erro ao obter resumo:', err);
       setResumo(null);
     }
-  }
+  };
 
   const handleEnderecoChange = (e) => {
     const { name, value } = e.target;
     let novoValor = value;
 
-    if (name === 'numero') {
-      novoValor = value.replace(/\D/g, '');
-    }
+    if (name === 'numero') novoValor = value.replace(/\D/g, '');
 
     if (name === 'cep') {
       novoValor = value
-        .replace(/[^\d-]/g, '')       // apenas números e hífen
-        .replace(/(?!^)\-+/g, '-')     // evita múltiplos hífens
-        .slice(0, 9);                  // 8 dígitos + 1 hífen no máx
+        .replace(/\D/g, '')
+        .slice(0, 8)
+        .replace(/^(\d{5})(\d{0,3})$/, '$1-$2');
+
+      const cepNums = novoValor.replace(/\D/g, '');
+      if (cepNums.length === 8) fetchCepData(cepNums);
     }
 
     setEndereco((prev) => ({ ...prev, [name]: novoValor }));
@@ -56,73 +74,45 @@ const Checkout = () => {
 
   const handleLimparPedido = async () => {
     const clienteId = localStorage.getItem('clienteId');
-    if (!clienteId) {
-      alert('ID do cliente não encontrado. Faça login novamente.');
-      return;
-    }
+    if (!clienteId) return alert('ID do cliente não encontrado. Faz login de novo.');
 
     try {
-      const response = await fetch(
+      const res = await fetch(
         `https://apisweetcandy.dev.vilhena.ifro.edu.br/pedidos/aguardando/${clienteId}`,
         { method: 'DELETE' }
       );
-      const data = await response.json();
-
-      if (response.ok) {
+      const data = await res.json();
+      if (res.ok) {
         alert(data.mensagem || 'Pedido limpo com sucesso!');
         await fetchResumo(clienteId);
-      } else {
-        alert('Erro ao limpar pedido: ' + (data.erro || 'Erro desconhecido'));
-      }
-    } catch (error) {
-      alert('Erro ao conectar com a API: ' + error.message);
+      } else alert(data.erro || 'Erro ao limpar pedido.');
+    } catch (err) {
+      alert('Erro ao conectar com a API: ' + err);
     }
   };
 
   const handleFazerPedido = async () => {
-    if (!resumo || resumo.quantidade === 0) {
-      alert('Você precisa montar pelo menos 1 cupcake antes de finalizar o pedido.');
-      return;
-    }
-
-    if (!pagamento) {
-      alert('Selecione uma forma de pagamento antes de finalizar o pedido.');
-      return;
-    }
+    if (!resumo || resumo.quantidade === 0)
+      return alert('Monte pelo menos 1 cupcake antes de finalizar.');
+    if (!pagamento) return alert('Seleciona a forma de pagamento, migo.');
 
     const { rua, numero, cep, bairro } = endereco;
-    if (!rua || !numero || !cep || !bairro) {
-      alert('Preencha todos os campos obrigatórios do endereço.');
-      return;
-    }
+    if (!rua || !numero || !cep || !bairro)
+      return alert('Preenche tudo no endereço ‑ não deixa nada em branco!');
 
     const clienteId = localStorage.getItem('clienteId');
-    if (!clienteId) {
-      alert('ID do cliente não encontrado. Faça login novamente.');
-      return;
-    }
+    if (!clienteId) return alert('ID do cliente não encontrado. Faz login de novo.');
 
     try {
-      const response = await fetch(
-        'https://apisweetcandy.dev.vilhena.ifro.edu.br/endereco',
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            id_cliente: clienteId,
-            ...endereco,
-          }),
-        }
-      );
-      const data = await response.json();
-
-      if (!response.ok) {
-        alert(data.erro || 'Erro ao salvar endereço.');
-        return;
-      }
-    } catch (error) {
-      alert('Erro ao conectar com a API de endereço: ' + error.message);
-      return;
+      const res = await fetch('https://apisweetcandy.dev.vilhena.ifro.edu.br/endereco', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_cliente: clienteId, ...endereco }),
+      });
+      const data = await res.json();
+      if (!res.ok) return alert(data.erro || 'Erro ao salvar endereço.');
+    } catch (err) {
+      return alert('Erro ao conectar com a API de endereço: ' + err);
     }
 
     window.location.href = '/vendaCupcake';
@@ -130,11 +120,8 @@ const Checkout = () => {
 
   useEffect(() => {
     const clienteId = localStorage.getItem('clienteId');
-    if (!clienteId) {
-      alert('ID do cliente não encontrado. Faça login novamente.');
-      return;
-    }
-    fetchResumo(clienteId);
+    if (clienteId) fetchResumo(clienteId);
+    else alert('ID do cliente não encontrado. Faz login de novo.');
   }, []);
 
   return (
@@ -146,36 +133,18 @@ const Checkout = () => {
 
         <h2 className={styles.h2}>Formas de Pagamento</h2>
         <div className={styles.pagamentos}>
-          <label className={styles.label}>
-            <input
-              className={styles.input}
-              type="radio"
-              name="pagamento"
-              checked={pagamento === 'pix'}
-              onChange={() => setPagamento('pix')}
-            />
-            Pix
-          </label>
-          <label className={styles.label}>
-            <input
-              className={styles.input}
-              type="radio"
-              name="pagamento"
-              checked={pagamento === 'maquina'}
-              onChange={() => setPagamento('maquina')}
-            />
-            Máquina móvel
-          </label>
-          <label className={styles.label}>
-            <input
-              className={styles.input}
-              type="radio"
-              name="pagamento"
-              checked={pagamento === 'dinheiro'}
-              onChange={() => setPagamento('dinheiro')}
-            />
-            Dinheiro
-          </label>
+          {['pix', 'maquina', 'dinheiro'].map((tipo) => (
+            <label key={tipo} className={styles.label}>
+              <input
+                type="radio"
+                name="pagamento"
+                className={styles.input}
+                checked={pagamento === tipo}
+                onChange={() => setPagamento(tipo)}
+              />
+              {tipo === 'pix' ? 'Pix' : tipo === 'maquina' ? 'Máquina móvel' : 'Dinheiro'}
+            </label>
+          ))}
         </div>
 
         <h3 className={styles.h3}>Endereço de entrega</h3>
@@ -183,58 +152,59 @@ const Checkout = () => {
           <p className={`${styles.p} ${styles.fullRow}`}>
             <span className={styles.fixo}>Rua:</span>
             <input
-              type="text"
+              readOnly
               name="rua"
               value={endereco.rua}
               onChange={handleEnderecoChange}
               className={styles.inputTexto}
+              placeholder="Rua"
             />
           </p>
 
           <p className={styles.p}>
             <span className={styles.fixo}>Número:</span>
             <input
-              type="text"
-              inputMode="numeric"
               name="numero"
+              inputMode="numeric"
               value={endereco.numero}
               onChange={handleEnderecoChange}
               className={styles.inputTexto}
+              placeholder="Número"
             />
           </p>
 
           <p className={styles.p}>
             <span className={styles.fixo}>CEP:</span>
             <input
-              type="text"
-              inputMode="text"
               name="cep"
               value={endereco.cep}
-              maxLength={9}
               onChange={handleEnderecoChange}
               className={styles.inputTexto}
+              placeholder="CEP (ex: 12345-678)"
             />
+            {carregandoCep && <span className={styles.loading}>Buscando CEP…</span>}
           </p>
 
           <p className={styles.p}>
             <span className={styles.fixo}>Bairro:</span>
             <input
-              type="text"
+              readOnly
               name="bairro"
               value={endereco.bairro}
               onChange={handleEnderecoChange}
               className={styles.inputTexto}
+              placeholder="Bairro"
             />
           </p>
 
           <p className={styles.p}>
             <span className={styles.fixo}>Complemento:</span>
             <input
-              type="text"
               name="complemento"
               value={endereco.complemento}
               onChange={handleEnderecoChange}
               className={styles.inputTexto}
+              placeholder="Complemento (opcional)"
             />
           </p>
         </div>
@@ -243,41 +213,28 @@ const Checkout = () => {
         <div className={styles.blocoresumo}>
           <p className={styles.p}>
             <span className={styles.fixo}>Quantidade:</span>{' '}
-            <span>{resumo ? resumo.quantidade : 'Carregando...'}</span>
+            <span>{resumo ? resumo.quantidade : 'Carregando…'}</span>
           </p>
           <p className={styles.p}>
             <span className={styles.fixo}>Taxa de serviço:</span>{' '}
-            <span>
-              R$ {resumo ? resumo.taxaServico.toFixed(2) : 'Carregando...'}
-            </span>
+            <span>{resumo ? `R$ ${resumo.taxaServico.toFixed(2)}` : 'Carregando…'}</span>
           </p>
           <p className={styles.p}>
             <span className={styles.fixo}>Taxa de entrega:</span>{' '}
-            <span>
-              R$ {resumo ? resumo.taxaEntrega.toFixed(2) : 'Carregando...'}
-            </span>
+            <span>{resumo ? `R$ ${resumo.taxaEntrega.toFixed(2)}` : 'Carregando…'}</span>
           </p>
           <p className={styles.p}>
             <span className={styles.fixo}>Total:</span>{' '}
-            <span>
-              R$ {resumo ? resumo.total.toFixed(2) : 'Carregando...'}
-            </span>
+            <span>{resumo ? `R$ ${resumo.total.toFixed(2)}` : 'Carregando…'}</span>
           </p>
         </div>
 
         <div className={styles.botoes}>
-          <button className={styles.button} onClick={handleLimparPedido}>
-            <span className={styles.link}>Limpar Pedido</span>
+          <button type="button" className={styles.button} onClick={handleLimparPedido}>
+            Limpar pedido
           </button>
-
-          <button className={styles.button}>
-            <Link className={styles.link} href="/pedido">
-              Voltar
-            </Link>
-          </button>
-
-          <button className={styles.button} onClick={handleFazerPedido}>
-            <span className={styles.link}>Fazer pedido</span>
+          <button type="button" className={styles.button} onClick={handleFazerPedido}>
+            Fazer pedido
           </button>
         </div>
       </div>
